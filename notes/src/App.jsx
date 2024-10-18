@@ -1,17 +1,17 @@
-import { useState } from 'react'
-import NotesPage from './pages/NotesPage'
-
+import React from "react";
+import NotesPage from "./pages/NotesPage";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div id="app">
+      <div
+        id="app"
+        className="h-screen bg-gray-900  relative overflow-auto"
+      >
         <NotesPage />
       </div>
     </>
   );
 }
 
-export default App
+export default App;

@@ -1,4 +1,4 @@
-export const fakeData = [
+export const fakeData = [//array of note objects
   {
     $id: 1,
     body: JSON.stringify(
