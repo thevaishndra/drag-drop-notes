@@ -29,6 +29,7 @@ export const setZIndex = (selectedCard) => {
   });
 };
 
+//because note body attribute holds stringified JSON data into object to avoid errors
 export const bodyParser = (value) => {
   try {
     return JSON.parse(value);

@@ -1,10 +1,11 @@
 import { useRef, useEffect, useState } from "react";// useRef - directly interact with dom element; useEffect - modifying dom after rendering
-import Trash from "../icons/Trash";//delete icon
+// import Trash from "../icons/Trash";//delete icon
+import DeleteButton from "./DeleteButton";
 import Spinner from "../icons/Spinner";
 import { setNewOffset, autoGrow, setZIndex, bodyParser } from "../utils";
 import {db} from '../appwrite/databases';
 
-const NoteCard = ({ note }) => {//note prop is a string which is converted to js objects
+const NoteCard = ({ note, setNotes }) => {//note prop is a string which is converted to js objects
   const [saving, setSaving] = useState(false);
   const keyUpTimer = useRef(null);
 
@@ -24,6 +25,8 @@ const NoteCard = ({ note }) => {//note prop is a string which is converted to js
 
 
   const mouseDown = (e) => {
+     if (e.target.classList.contains("card-header")) {
+    
     mouseStartPos.x = e.clientX//storing horizontal x position
     mouseStartPos.y = e.clientY//storing vertical y position
 
@@ -31,6 +34,7 @@ const NoteCard = ({ note }) => {//note prop is a string which is converted to js
     document.addEventListener("mouseup", mouseUp);//when mouse button is released call function -> stops dragging
 
     setZIndex(cardRef.current)//clicked card to the front
+     }
   }
 
   const mouseMove = (e) => {
@@ -41,7 +45,7 @@ const NoteCard = ({ note }) => {//note prop is a string which is converted to js
       y: mouseStartPos.y - e.clientY, //moved down -> 2 - (-3) = 5; moved up -> 2 - 3 = -1
     };
 
-    console.log("mouseMoveDir", mouseMoveDir);
+    // console.log("mouseMoveDir", mouseMoveDir);
     //2 - Update start position for next move.
     mouseStartPos.x = e.clientX;
     mouseStartPos.y = e.clientY;
@@ -54,6 +58,7 @@ const NoteCard = ({ note }) => {//note prop is a string which is converted to js
 
 
   const mouseUp = () =>{//stops calculating the direction and stuff
+
     document.removeEventListener("mousemove", mouseMove);
     document.removeEventListener("mouseup", mouseUp);//prevents itself being called multiple times
 
@@ -62,26 +67,27 @@ const NoteCard = ({ note }) => {//note prop is a string which is converted to js
     // db.notes.update(note.$id, {position : JSON.stringify(newPosition)}); 
   }
 
- const saveData = async (key, value) => {
+ const saveData = async (key, value) => {//save notes position
    const payload = { [key]: JSON.stringify(value) };
    try {
-     await db.notes.update(note.$id, payload);
+     await db.notes.update(note.$id, payload);//payload -> The data you want to update, it will contain new value
    } catch (error) {
      console.error(error);
    }
-   setSaving(false);
+   setSaving(false);//indicating save operation is completed
  };
 
  const handleKeyUp = () => {
-  setSaving(true)
+   // save user input in a text area
+   setSaving(true); //indicating save operation is in progress
 
    if (keyUpTimer.current) {
-     clearTimeout(keyUpTimer.current);
-   } 
+     clearTimeout(keyUpTimer.current); //If there’s already a timer set (i.e., the user has typed something and hasn't stopped for 2 seconds), this line clears that timer
+   }
 
-  keyUpTimer.current = setTimeout(() => {
-    saveData("body", textAreaRef.current.value);
-  }, 2000);
+   keyUpTimer.current = setTimeout(() => {
+     saveData("body", textAreaRef.current.value); //body: key that represents the part of the note being saved
+   }, 2000); //call the saveData function after 2000 milliseconds (2 seconds)
  }
 
   return (
@@ -99,8 +105,9 @@ const NoteCard = ({ note }) => {//note prop is a string which is converted to js
         className="card-header flex justify-between items-center rounded-t-lg p-2"
         style={{ backgroundColor: colors.colorHeader }}
       >
-        <Trash />
-        {saving && (
+        {/* <Trash /> */}
+        <DeleteButton noteId={note.$id} setNotes={setNotes} />
+        {saving && ( //if save option is in progress then perform
           <div className="flex items-center gap-1 card-saving">
             <Spinner color={colors.colorText} />
             <span style={{ color: colors.colorText }}>Saving...</span>
@@ -113,7 +120,7 @@ const NoteCard = ({ note }) => {//note prop is a string which is converted to js
           onKeyUp={handleKeyUp}
           ref={textAreaRef} //attaches ref for manipulating text area
           className="bg-inherit border-none w-full h-full resize-none text-base focus:outline-none"
-          style={{ color: colors.colorText }}
+          style={{ color: colors.colorText }} //inline styling in react is 2 braces
           defaultValue={body} //sets initial content of the text area
           onInput={() => {
             autoGrow(textAreaRef); //Calls autoGrow on input to adjust the height dynamically

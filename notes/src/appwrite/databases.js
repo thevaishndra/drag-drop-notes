@@ -5,6 +5,7 @@ const db = {};
 
 collections.forEach((collection) => {
   db[collection.name] = {
+//crud operations from appwrite
     create: async (payload, id = ID.unique()) => {
       return await databases.createDocument(
         collection.dbId,
@@ -13,6 +14,7 @@ collections.forEach((collection) => {
         payload
       );
     },
+
     update: async (id, payload) => {
       return await databases.updateDocument(
         collection.dbId,
@@ -21,12 +23,15 @@ collections.forEach((collection) => {
         payload
       );
     },
+
     delete: async (id) => {
       return await databases.deleteDocument(collection.dbId, collection.id, id);
     },
+
     get: async (id) => {
       return await databases.getDocument(collection.dbId, collection.id, id);
     },
+
     list: async (queries) => {
       return await databases.listDocuments(
         collection.dbId,
