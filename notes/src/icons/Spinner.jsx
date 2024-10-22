@@ -1,7 +1,7 @@
 const Spinner = ({ color = "#fff", size = "20" }) => {
   return (
     <svg
-      className="spinner"
+      className="spinner animate-spinSlow"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       width={size}

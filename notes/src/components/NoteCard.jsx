@@ -106,7 +106,7 @@ const NoteCard = ({ note, setNotes }) => {//note prop is a string which is conve
         style={{ backgroundColor: colors.colorHeader }}
       >
         {/* <Trash /> */}
-        <DeleteButton noteId={note.$id} setNotes={setNotes} />
+        <DeleteButton noteId={note.$id} /*setNotes={setNotes}*/ />
         {saving && ( //if save option is in progress then perform
           <div className="flex items-center gap-1 card-saving">
             <Spinner color={colors.colorText} />
