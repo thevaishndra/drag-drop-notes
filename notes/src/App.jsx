@@ -17,4 +17,4 @@ function App() {
 }
 
 export default App;
-//giving titles to note,  voice to text notes
+// voice to text notes -> play option after onclick change it to stop option 

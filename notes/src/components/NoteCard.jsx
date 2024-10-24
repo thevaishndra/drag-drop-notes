@@ -113,6 +113,7 @@ const NoteCard = ({ note }) => {//note prop is a string which is converted to js
       >
         {/* <Trash /> */}
         <DeleteButton noteId={note.$id} /*setNotes={setNotes}*/ />
+        
         {saving && ( //if save option is in progress then perform
           <div className="flex items-center gap-1 card-saving">
             <Spinner color={colors.colorText} />
