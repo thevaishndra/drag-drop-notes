@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { NoteContext } from '../context/NoteContext';
 
 const DeleteButton = ({noteId}) => {
-  const {setNotes} = useContext(NoteContext);
+  const {setNotes} = useContext(NoteContext);//avoid prop drilling we used context api
     const handleDelete = async () => {
         db.notes.delete(noteId);//deleting from database(permanent)
         setNotes((prevState) =>

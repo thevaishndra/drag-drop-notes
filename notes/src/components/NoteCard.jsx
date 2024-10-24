@@ -1,13 +1,17 @@
 import { useRef, useEffect, useState } from "react";// useRef - directly interact with dom element; useEffect - modifying dom after rendering
 // import Trash from "../icons/Trash";//delete icon
+import { db } from "../appwrite/databases";
 import DeleteButton from "./DeleteButton";
 import Spinner from "../icons/Spinner";
 import { setNewOffset, autoGrow, setZIndex, bodyParser } from "../utils";
-import {db} from '../appwrite/databases';
+import {useContext} from "react";
+import { NoteContext } from "../context/NoteContext";
 
-const NoteCard = ({ note, setNotes }) => {//note prop is a string which is converted to js objects
+const NoteCard = ({ note }) => {//note prop is a string which is converted to js objects
   const [saving, setSaving] = useState(false);
   const keyUpTimer = useRef(null);
+
+  const {setSelectedNote} = useContext(NoteContext);
 
   const [position, setPosition] = useState(JSON.parse(note.position));//dynamic position
   const colors = JSON.parse(note.colors);
@@ -21,6 +25,7 @@ const NoteCard = ({ note, setNotes }) => {//note prop is a string which is conve
 
   useEffect(() => {//calls the autoGrow function to adjust the textarea height based on its content
     autoGrow(textAreaRef);//automatically adjust the height of the text area
+    setZIndex(cardRef.current);
   }, []);
 
 
@@ -34,6 +39,7 @@ const NoteCard = ({ note, setNotes }) => {//note prop is a string which is conve
     document.addEventListener("mouseup", mouseUp);//when mouse button is released call function -> stops dragging
 
     setZIndex(cardRef.current)//clicked card to the front
+    setSelectedNote(note);
      }
   }
 
@@ -127,6 +133,7 @@ const NoteCard = ({ note, setNotes }) => {//note prop is a string which is conve
           }}
           onFocus={() => {
             setZIndex(cardRef.current);
+            setSelectedNote(note);
           }}
         ></textarea>
       </div>

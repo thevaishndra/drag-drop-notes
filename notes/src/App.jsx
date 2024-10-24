@@ -9,6 +9,8 @@ function App() {
         <NoteProvider>
           <NotesPage />
         </NoteProvider>
+        {/* you need to wrap your entire app or the relevant parts of it with the
+        NoteProvider so that the notes can be accessible in any component */}
       </div>
     </>
   );
