@@ -21,4 +21,4 @@ const Spinner = ({ color = "#fff", size = "20" }) => {
 
 export default Spinner;
 
-//giving titles to note, search functionality, reminders or notification, sorting filtering acc to dates, voice to text notes
+

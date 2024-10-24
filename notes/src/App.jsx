@@ -17,3 +17,4 @@ function App() {
 }
 
 export default App;
+//giving titles to note,  voice to text notes
