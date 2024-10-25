@@ -1,5 +1,5 @@
 import React from 'react'
-import Trash from '../icons/Trash'
+import Trash from '../icons/trash'
 import { db } from '../appwrite/databases';
 import { useContext } from 'react';
 import { NoteContext } from '../context/NoteContext';
