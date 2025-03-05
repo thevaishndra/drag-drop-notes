@@ -10,9 +10,9 @@ const Controls = () => {
              0_4px_4px_hsl(0_0%_0%/_7.5%),
              0_8px_8px_hsl(0_0%_0%/_7.5%),
              0_16px_16px_hsl(0_0%_0%/_7.5%)] 
-             z-[10000]" >
+             z-[10000]" >{/*arranges elements vertically */}
         <AddButton />
-        {colors.map((color) => (
+        {colors.map((color) => (//rendering color options
           <Color key={color.id} color={color} />
         ))}
     </div>

@@ -6,10 +6,10 @@ import Spinner from "../icons/Spinner";
 import { db } from "../appwrite/databases";
 
 
-export const NoteContext = createContext();
+export const NoteContext = createContext();//creates react context - allows component inside noteprovider to acess shared data
 
 const NoteProvider = ({ children }) => {
-    const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedNote, setSelectedNote] = useState(null);
 
@@ -18,21 +18,21 @@ const NoteProvider = ({ children }) => {
    }, []);
 
   const init = async () => {
-    const response = await db.notes.list();
-    setNotes(response.documents); 
-    setLoading(false);//loading spinner
+    const response = await db.notes.list();//fetch notes from appwrite
+    setNotes(response.documents); //store notes in state
+    setLoading(false);//stop showing loading spinner
   };
-  const contextData = { notes, setNotes, selectedNote, setSelectedNote };
+  const contextData = { notes, setNotes, selectedNote, setSelectedNote };//object that hold these data
 
   return (
-    <NoteContext.Provider value={contextData}>
+    <NoteContext.Provider value={contextData}>{/*making data access globally*/}
       {loading ? (
         <div className="flex items-center justify-center h-screen ">
           <Spinner size="100" />
         </div>
       ) : (
-        children
-      )}
+        children //app's context
+      )} 
     </NoteContext.Provider>
   );
 };

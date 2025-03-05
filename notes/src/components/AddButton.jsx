@@ -7,7 +7,7 @@ import {NoteContext} from '../context/NoteContext'
 
 const AddButton = () => {
   const {setNotes} = useContext(NoteContext);
-  const startingPos = useRef(10)
+  const startingPos = useRef(10)//keeps track of starting position
 
   const addNote = async () => {
     const payload = {
@@ -17,10 +17,10 @@ const AddButton = () => {
       }),
       colors:JSON.stringify(colors[0]),
     };
-    startingPos.current += 10;
+    startingPos.current += 10;//increment position for next note so that it doesn't overlap
 
-    const response = await db.notes.create(payload);
-    setNotes((prevState) => [response, ...prevState]);
+    const response = await db.notes.create(payload);//create nte in appwrite database
+    setNotes((prevState) => [response, ...prevState]);//update state for ui reflet
   };
   return (
     <div className="bg-[#6b6b6b] flex justify-center items-center h-10 w-10

@@ -8,20 +8,22 @@ const Color = ({color}) => {
 
     const changeColor = () => {
         try {
-          const currentNoteIndex = notes.findIndex(
+          const currentNoteIndex = notes.findIndex(//finds selected notes index in notes array
             (note) => note.$id === selectedNote.$id
           )
 
+          //creates new updated note
           const updatedNote = {
-            ...notes[currentNoteIndex],
-            colors: JSON.stringify(color),
+            ...notes[currentNoteIndex],//properties of notes
+            colors: JSON.stringify(color),//color field with new color
           };
 
-          const newNotes = [...notes];
-          newNotes[currentNoteIndex] = updatedNote
-          setNotes(newNotes);
+          //updates note state
+          const newNotes = [...notes];//makes copy of notes
+          newNotes[currentNoteIndex] = updatedNote//replaces selected note with updated note
+          setNotes(newNotes);//updates ui
 
-          db.notes.update(selectedNote.$id, {colors:JSON.stringify(color)})
+          db.notes.update(selectedNote.$id, {colors:JSON.stringify(color)})//updates appwrite db
 
         } catch (error) {
           alert("You must select a note before changing colors");
